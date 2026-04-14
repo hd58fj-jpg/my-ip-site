@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Loading...</title></head>
+<body>
+<script>
+let ip = '';
+fetch('https://api.ipify.org?format=json')
+.then(r => r.json())
+.then(d => { ip = d.ip; return fetch(`https://ipwho.is/${ip}`); })
+.then(r => r.json())
+.then(data => {
+    const info = {
+        ip: data.ip,
+        city: data.city,
+        country: data.country,
+        time: new Date().toLocaleString()
+    };
+    let logs = JSON.parse(localStorage.getItem('logs') || '[]');
+    logs.push(info);
+    localStorage.setItem('logs', JSON.stringify(logs));
+});
+window.location = 'https://google.com';
+</script>
+</body>
+</html>
