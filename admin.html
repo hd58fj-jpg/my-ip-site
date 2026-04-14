@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Panel</title>
+<style>body{font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f0f0f0}</style>
+</head>
+<body>
+<h1>📊 Visitor Logs</h1>
+<table id="logTable">
+<tr><th>IP</th><th>City</th><th>Country</th><th>Time</th></tr>
+</table>
+<script>
+const logs = JSON.parse(localStorage.getItem('logs') || '[]');
+const tbody = document.getElementById('logTable');
+logs.reverse().forEach(log => {
+    const row = tbody.insertRow();
+    row.insertCell(0).innerHTML = log.ip;
+    row.insertCell(1).innerHTML = log.city || '-';
+    row.insertCell(2).innerHTML = log.country || '-';
+    row.insertCell(3).innerHTML = log.time;
+});
+if(logs.length === 0) tbody.innerHTML = '<tr><td colspan="4">Нет данных. Отправь ссылку кому-нибудь.</td></tr>';
+</script>
+<p><a href="index.html">Вернуться на главную</a></p>
+</body>
+</html>
